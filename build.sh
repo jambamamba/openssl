@@ -68,9 +68,21 @@ function build(){
 }
 
 function main(){
-    skip $@ library="openssl"
+    local library="openssl"
+    local target="x86"
+    parseArgs $@
+
+    skip $@ library="${library}"
     build $@
-    package $@ library="openssl"
+    
+    local builddir="/tmp/${library}/${target}-build" # $(mktemp -d)/installs
+    copyBuildFilesToInstalls $@ builddir="${builddir}"
+    mv ${builddir}/installs/include/include/crypto/* ${builddir}/installs/include/crypto/
+    
+    mkdir -p ${builddir}/installs/include/openssl
+    mv ${builddir}/installs/include/include/openssl/* ${builddir}/installs/include/openssl/
+    mv ${builddir}/installs/include/${target}-build/include/openssl/* ${builddir}/installs/include/openssl/
+    compressInstalls $@ builddir="${builddir}" library="${library}"
 }
 
-main $@
+time main $@

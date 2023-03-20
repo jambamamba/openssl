@@ -25,3 +25,6 @@
 [submodule "oqs-provider"]
 	path = oqs-provider
 	url = https://github.com/open-quantum-safe/oqs-provider.git
+[submodule "share"]
+	path = share
+	url = git@github.com:jambamamba/share.git

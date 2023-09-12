@@ -54,9 +54,10 @@ function build(){
         source "../share/toolchains/x86_64-w64-mingw32.sh"
         ../Configure mingw64 no-asm shared --openssldir=$PWD/../mingw64
     elif [ "$target" == "arm" ]; then
-        sudo mv -f ${SDK_DIR}/sysroots/x86_64-fslcsdk-linux/usr/bin/perl ${SDK_DIR}/sysroots/x86_64-fslcsdk-linux/usr/bin/perl.backup
-        sudo ln -sf /usr/bin/perl ${SDK_DIR}/sysroots/x86_64-fslcsdk-linux/usr/bin/perl
-        source "${SDK_DIR}/environment-setup-aarch64-fslc-linux"
+        local perl=$(sudo find ${SDK_DIR} -name perl)
+        # sudo mv -f ${SDK_DIR}/sysroots/x86_64-fslcsdk-linux/usr/bin/perl ${SDK_DIR}/sysroots/x86_64-fslcsdk-linux/usr/bin/perl.backup
+        sudo ln -sf /usr/bin/perl ${perl}
+        source "${SDK_DIR}/environment-setup-cortexa72-oe-linux"
         unset CROSS_COMPILE
         ../Configure linux-armv4 no-asm shared
     else
